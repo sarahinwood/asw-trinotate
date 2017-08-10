@@ -3,12 +3,9 @@
 set -eu
 
 trinity_fasta="$(readlink -f "${1}")"
-transdecoder_results="${2}"
+rnammer_results="${2}"
 
-printf "trinity_fasta: %s\n" "${trinity_fasta}"
-printf "transdecoder_results: %s\n" "${transdecoder_results}"
-
-outdir="$(dirname "${transdecoder_results}")"
+outdir="$(dirname "${rnammer_results}")"
 if [[ ! -e "${outdir}" ]]; then
 	mkdir -p "${outdir}"
 fi
@@ -16,8 +13,9 @@ fi
 (
 cd "${outdir}" || exit 1
 cp "${trinity_fasta}" ./Trinity.fasta
-TransDecoder.LongOrfs -t Trinity.fasta -S
-TransDecoder.Predict -t Trinity.fasta
+	RnammerTranscriptome.pl \
+	--transcriptome Trinity.fasta \
+	--path_to_rnammer "$(which rnammer)"
 	)
 
 cat <<- _EOF_ > "${outdir}/git.log"
