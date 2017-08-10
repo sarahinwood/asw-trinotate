@@ -2,6 +2,8 @@
 
 set -eu
 
+tmhmm_path="$(readlink -f "$(which tmhmm)")"
+
 transdecoder_results="${1}"
 tmhmm_results="${2}"
 
@@ -10,7 +12,7 @@ if [[ ! -e "${outdir}" ]]; then
 	mkdir -p "${outdir}"
 fi
 
-tmhmm \
+"${tmhmm_path}" \
 	--short \
 	< "${transdecoder_results}" \
 	> "${tmhmm_results}" \
