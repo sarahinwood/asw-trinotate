@@ -13,8 +13,7 @@ fi
 signalp \
 	-f short \
 	-n "${signalp_results}" \
-	"${transdecoder_results}" \
-	2> "${outdir}/signalp.log"
+	"${transdecoder_results}"
 
 cat <<- _EOF_ > "${outdir}/git.log"
 branch,$(git rev-parse --abbrev-ref HEAD)
