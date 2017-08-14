@@ -6,15 +6,27 @@ bin_dir="$(readlink -f bin/trinotate/bin)"
 export PATH="${bin_dir}:${PATH}"
 
 trinity_fasta="data/Trinity.fasta"
+blast_db="bin/trinotate/db/uniprot_sprot.pep"
 hmmdb="bin/trinotate/trinotate/Pfam-A.hmm"
-
-##check for blastx results
-
 
 ##check for transdecoder results
 transdecoder_results="output/transdecoder/Trinity.fasta.transdecoder.pep"
 if [[ ! -e "${transdecoder_results}" ]]; then
 	src/run_transdecoder.sh "${trinity_fasta}" "${transdecoder_results}"
+fi
+
+##check for blastx results
+blastx_results="output/blastx/blastx.outfmt6"
+if [[ ! -e "${blastx_results}" ]]; then
+	src/run_blastx.sh "${trinity_fasta}" "${blast_db}" "${blastx_results}"
+fi
+
+##check for blastp results
+blastp_results="output/blastp/blastp.outfmt6"
+if [[ -e "${transdecoder_results}" ]]; then
+	if [[ ! -e "${blastp_results}" ]]; then
+			src/run_blastp.sh "${transdecoder_results}" "${blast_db}" "${blastp_results}"
+	fi
 fi
 
 ##check for hmmer results
