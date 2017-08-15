@@ -41,11 +41,13 @@ fi
 
 ##check for signalp results
 signalp_results="output/signalp/signalp.out"
+signalp_gff="output/signalp/signalp.gff"
 if [[ -e "${transdecoder_results}" ]]; then
 	if [[ ! -e "${signalp_results}" ]]; then
 		src/run_signalp.sh \
 		"${transdecoder_results}" \
-		"${signalp_results}"
+		"${signalp_results}" \
+		"${signalp_gff}"
 	fi
 fi
 

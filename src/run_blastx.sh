@@ -17,7 +17,8 @@ blastx \
 	-db "${blast_db}" \
 	-num_threads 50 \
 	-max_target_seqs 1 \
-	-outfmt 6 > "${blastx_results}"
+	-outfmt 6 > "${blastx_results}" \
+	2> "${outdir}/blastx.err"
 
 cat <<- _EOF_ > "${outdir}/git.log"
 branch,$(git rev-parse --abbrev-ref HEAD)
