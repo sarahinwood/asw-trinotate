@@ -17,6 +17,8 @@ if [[ ! -e "${outdir}" ]]; then
 	mkdir -p "${outdir}"
 fi
 
+cp "$(readlink -f bin/trinotate/db/Trinotate.sqlite)" "${trinotate_database}"
+
 ##gene to trans map
 trinity_gene_trans_map=output/trinotate/Trinity.fasta.gene_trans_map
 get_Trinity_gene_to_trans_map.pl \
@@ -24,29 +26,28 @@ get_Trinity_gene_to_trans_map.pl \
 	>  "${trinity_gene_trans_map}"
 
 ##load info into trinotate.sqlite database
-sqlite_db="output/trinotate/Trinotate.sqlite"
 Trinotate \
-	"${sqlite_db}" init \
+	"${trinotate_database}" init \
 	--gene_trans_map "${trinity_gene_trans_map}" \
 	--transcript_fasta "${trinity_fasta}" \
 	--transdecoder_pep "${transdecoder_results}"
 
 ##load transcript hits
-Trinotate "${sqlite_db}" LOAD_swissprot_blastx "${blastx_results}"
+Trinotate "${trinotate_database}" LOAD_swissprot_blastx "${blastx_results}"
 ##load protein hits
-Trinotate "${sqlite_db}" LOAD_swissprot_blastp "${blastp_results}"
+Trinotate "${trinotate_database}" LOAD_swissprot_blastp "${blastp_results}"
 ##load hmmer results
-Trinotate "${sqlite_db}" LOAD_pfam "${hmmer_results}"
+Trinotate "${trinotate_database}" LOAD_pfam "${hmmer_results}"
 ##load signalp results
-Trinotate "${sqlite_db}" LOAD_signalp "${signalp_gff}"
+Trinotate "${trinotate_database}" LOAD_signalp "${signalp_gff}"
 ##load tmhmm results
-Trinotate "${sqlite_db}" LOAD_tmhmm "${tmhmm_results}"
+Trinotate "${trinotate_database}" LOAD_tmhmm "${tmhmm_results}"
 ##load rnammer results
-Trinotate "${sqlite_db}" LOAD_rnammer "${rnammer_results}"
+Trinotate "${trinotate_database}" LOAD_rnammer "${rnammer_results}"
 
 trinotate_report=output/trinotate/trinotate_annotation_report.xls
 ##output annotation report
-Trinotate "${sqlite_db}" report [opts] > "${trinotate_report}"
+Trinotate "${trinotate_database}" report [opts] > "${trinotate_report}"
 
 cat <<- _EOF_ > "${outdir}/git.log"
 branch,$(git rev-parse --abbrev-ref HEAD)
