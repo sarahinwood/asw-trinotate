@@ -76,6 +76,7 @@ rnammer_results="output/rnammer/Trinity.fasta.rnammer.gff"
 ##load results
 trinotate_database="output/trinotate/Trinotate.sqlite"
 if [[ ! -e "${trinotate_database}" ]]; then
+	Build_Trinotate_Boilerplate_SQLite_db.pl "${trinotate_database}"
 	src/load_trinotate_results.sh \
 	"${trinity_fasta}" \
 	"${trinotate_database}" \
