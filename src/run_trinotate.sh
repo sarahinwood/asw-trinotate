@@ -40,15 +40,25 @@ if [[ -e "${transdecoder_results}" ]]; then
 fi
 
 ##check for signalp results
+renamed_transdecoder="output/transdecoder/renamed_transdecoder_results.fasta"
 signalp_results="output/signalp/signalp.out"
 signalp_gff="output/signalp/signalp.gff"
+###rename transdecoder output seq.ids to allow .gff file
 if [[ -e "${transdecoder_results}" ]]; then
+	src/rename_fasta_headers.py
+fi
+###run signal p
+if [[ -e "${renamed_transdecoder}" ]]; then
 	if [[ ! -e "${signalp_results}" ]]; then
 		src/run_signalp.sh \
-		"${transdecoder_results}" \
+		"${renamed_transdecoder}" \
 		"${signalp_results}" \
 		"${signalp_gff}"
 	fi
+fi
+###rename signalp output to old seq.ids
+if [[ -e "${signalp_gff}" ]]; then
+	src/rename_gff.results
 fi
 
 ##check for tmhmm results

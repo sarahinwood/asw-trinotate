@@ -2,7 +2,7 @@
 
 set -eu
 
-transdecoder_results="${1}"
+renamed_transdecoder="${1}"
 signalp_results="${2}"
 signalp_gff="${3}"
 
@@ -14,7 +14,7 @@ fi
 signalp \
 	-f short \
 	-n "${signalp_gff}" \
-	"${transdecoder_results}" \
+	"${renamed_transdecoder}" \
 	> "${signalp_results}"
 
 cat <<- _EOF_ > "${outdir}/git.log"
