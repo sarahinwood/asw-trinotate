@@ -77,13 +77,13 @@ rnammer_results="output/rnammer/Trinity.fasta.rnammer.gff"
 trinotate_database="output/trinotate/Trinotate.sqlite"
 if [[ ! -e "${trinotate_database}" ]]; then
 	src/load_trinotate_results.sh \
-	"${trinity_fasta}"
-	"${trinotate_database}"
-	"${transdecoder_results}"
-	"${blastx_results}"
-	"${blastp_results}"
-	"${hmmer_results}"
-	"${signalp_gff}"
-	"${tmhmm_results}"
+	"${trinity_fasta}" \
+	"${trinotate_database}" \
+	"${transdecoder_results}" \
+	"${blastx_results}" \
+	"${blastp_results}" \
+	"${hmmer_results}" \
+	"${signalp_gff}" \
+	"${tmhmm_results}" \
 	"${rnammer_results}"
 fi
