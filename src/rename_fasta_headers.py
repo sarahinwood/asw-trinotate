@@ -4,7 +4,7 @@ from Bio import SeqIO
 import csv
 
 # load files
-transdecoder_results = 'data/Trinity.fasta.transdecoder.pep'
+transdecoder_results = 'output/transdecoder/Trinity.fasta.transdecoder.pep'
 records = list(SeqIO.parse(transdecoder_results, 'fasta'))
 
 # declare dictionaries
@@ -42,8 +42,3 @@ SeqIO.write(
     sequences=records,
     handle='output/transdecoder/renamed_transdecoder_results.fasta',
     format='fasta')
-
-cat <<- _EOF_ > "${outdir}/git.log"
-branch,$(git rev-parse --abbrev-ref HEAD)
-hash,$(git rev-parse HEAD)
-_EOF_

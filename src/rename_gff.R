@@ -21,8 +21,3 @@ output_gff <- makeGRangesFromDataFrame(data.frame(merged_results),
                                        keep.extra.columns = TRUE)
 
 export.gff2(output_gff, "output/signalp/renamed_signalp_gff.gff2")
-
-cat <<- _EOF_ > "${outdir}/git.log"
-branch,$(git rev-parse --abbrev-ref HEAD)
-hash,$(git rev-parse HEAD)
-_EOF_
