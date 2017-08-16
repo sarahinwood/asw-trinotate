@@ -40,25 +40,19 @@ if [[ -e "${transdecoder_results}" ]]; then
 fi
 
 ##check for signalp results
-renamed_transdecoder="output/transdecoder/renamed_transdecoder_results.fasta"
+renamed_transdecoder="output/signalp/renamed_transdecoder_results.fasta"
 signalp_results="output/signalp/signalp.out"
 signalp_gff="output/signalp/signalp.gff"
-###rename transdecoder output seq.ids to allow .gff file
-if [[ -e "${transdecoder_results}" ]]; then
-	src/rename_fasta_headers.py
-fi
 ###run signal p
 if [[ -e "${renamed_transdecoder}" ]]; then
 	if [[ ! -e "${signalp_results}" ]]; then
+		src/rename_fasta_headers.py
 		src/run_signalp.sh \
 		"${renamed_transdecoder}" \
 		"${signalp_results}" \
 		"${signalp_gff}"
+		src/rename_gff.R
 	fi
-fi
-###rename signalp output to old seq.ids
-if [[ -e "${signalp_gff}" ]]; then
-	src/rename_gff.results
 fi
 
 ##check for tmhmm results
@@ -78,4 +72,18 @@ rnammer_results="output/rnammer/Trinity.fasta.rnammer.gff"
 		"${trinity_fasta}" \
 		"${rnammer_results}"
 	fi
-	
+
+##load results
+trinotate_database="output/trinotate/Trinotate.sqlite"
+if [[ ! -e "${trinotate_database}" ]]; then
+	src/load_trinotate_results.sh \
+	"${trinity_fasta}"
+	"${trinotate_database}"
+	"${transdecoder_results}"
+	"${blastx_results}"
+	"${blastp_results}"
+	"${hmmer_results}"
+	"${signalp_gff}"
+	"${tmhmm_results}"
+	"${rnammer_results}"
+fi

@@ -15,5 +15,11 @@ hmmscan \
 	--cpu 50 \
 	--domtblout "${hmmer_results}" \
 	"${hmmdb}" \
-	"${transdecoder_results}"
+	"${transdecoder_results}" \
 	>"${outdir}/pfam.log"
+
+cat <<- _EOF_ > "${outdir}/git.log"
+branch,$(git rev-parse --abbrev-ref HEAD)
+hash,$(git rev-parse HEAD)
+signalp version, $(signalp -V)
+_EOF_
