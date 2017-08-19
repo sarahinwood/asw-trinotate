@@ -43,6 +43,7 @@ fi
 renamed_transdecoder="output/signalp/renamed_transdecoder_results.fasta"
 signalp_results="output/signalp/signalp.out"
 signalp_gff="output/signalp/signalp.gff"
+signalp_renamed_gff="output/signalp/renamed_signalp_gff.gff2"
 ###run signal p
 if [[ -e "${renamed_transdecoder}" ]]; then
 	if [[ ! -e "${signalp_results}" ]]; then
@@ -83,7 +84,7 @@ if [[ ! -e "${trinotate_database}" ]]; then
 	"${blastx_results}" \
 	"${blastp_results}" \
 	"${hmmer_results}" \
-	"${signalp_gff}" \
+	"${signalp_renamed_gff}" \
 	"${tmhmm_results}" \
 	"${rnammer_results}"
 fi

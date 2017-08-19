@@ -8,7 +8,7 @@ transdecoder_results="${3}"
 blastx_results="${4}"
 blastp_results="${5}"
 hmmer_results="${6}"
-signalp_gff="${7}"
+signalp_renamed_gff="${7}"
 tmhmm_results="${8}"
 rnammer_results="${9}"
 
@@ -39,13 +39,13 @@ Trinotate "${trinotate_database}" LOAD_swissprot_blastp "${blastp_results}"
 ##load hmmer results
 Trinotate "${trinotate_database}" LOAD_pfam "${hmmer_results}"
 ##load signalp results
-Trinotate "${trinotate_database}" LOAD_signalp "${signalp_gff}"
+Trinotate "${trinotate_database}" LOAD_signalp "${signalp_renamed_gff}"
 ##load tmhmm results
 Trinotate "${trinotate_database}" LOAD_tmhmm "${tmhmm_results}"
 ##load rnammer results
 Trinotate "${trinotate_database}" LOAD_rnammer "${rnammer_results}"
 
-trinotate_report=output/trinotate/trinotate_annotation_report.xls
+trinotate_report=output/trinotate/trinotate_annotation_report.txt
 ##output annotation report
 Trinotate "${trinotate_database}" report [opts] > "${trinotate_report}"
 

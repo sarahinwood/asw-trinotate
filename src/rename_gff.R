@@ -16,9 +16,10 @@ merged_results <- merge(sp_dt,
       all.x = TRUE)
 merged_results[, seqnames := NULL]
 setnames(merged_results, "id", "seqname")
+colorder <- c("seqname", "source", "type", "start", "end", "score")
+output_dt <- merged_results[,colorder, with=FALSE]
+output_dt[,strand:="."]
+output_dt[,phase:="."]
+output_dt[,signal:="YES"]
 
-output_gff <- makeGRangesFromDataFrame(data.frame(merged_results),
-                                       keep.extra.columns = TRUE)
-
-##NOTE: output .gff is not the same format as signalp .gff
-export.gff2(output_gff, "output/signalp/renamed_signalp_gff.gff2")
+fwrite(x=output_dt, file = "output/signalp/renamed_signalp_gff.gff2", sep = "\t", col.names = FALSE)
